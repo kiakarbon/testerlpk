@@ -177,4 +177,49 @@ def create_word_document(catatan):
     # Simpan ke temporary file
     temp_dir = tempfile.gettempdir()
     safe_title = "".join(c for c in catatan['judul'] if c.isalnum() or c in (' ', '-', '_')).rstrip()
-    filename = f"L
+    filename = f"Laporan_{safe_title}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.docx"
+    filepath = os.path.join(temp_dir, filename)
+    doc.save(filepath)
+    
+    return filepath
+
+def create_batch_word_document(catatan_list):
+    """
+    Membuat dokumen Word gabungan untuk multiple catatan
+    """
+    doc = Document()
+    
+    # Judul batch
+    title = doc.add_heading('KOMPILASI LAPORAN PRAKTIKUM NANOMATERIAL', 0)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    title.runs[0].font.color.rgb = RGBColor(0x2E, 0x86, 0xAB)
+    
+    doc.add_paragraph(f"Total Laporan: {len(catatan_list)}")
+    doc.add_paragraph(f"Tanggal Kompilasi: {datetime.now().strftime('%d %B %Y')}")
+    
+    doc.add_page_break()
+    
+    # Tambahkan setiap catatan
+    for idx, catatan in enumerate(catatan_list, 1):
+        doc.add_heading(f'LAPORAN {idx}: {catatan["judul"]}', level=1)
+        
+        # Informasi dasar
+        doc.add_paragraph(f"Praktikan: {catatan['nama_praktikan']}")
+        doc.add_paragraph(f"Tanggal: {catatan['tanggal']}")
+        doc.add_paragraph(f"Nanomaterial: {catatan['jenis_nanomaterial']}")
+        doc.add_paragraph(f"Metode: {catatan['metode_sintesis']}")
+        
+        # Prosedur singkat
+        doc.add_heading('Prosedur Singkat', level=2)
+        first_lines = '\n'.join(catatan['prosedur'].split('\n')[:3])
+        doc.add_paragraph(first_lines + '...')
+        
+        doc.add_page_break()
+    
+    # Simpan file
+    temp_dir = tempfile.gettempdir()
+    filename = f"Batch_Report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.docx"
+    filepath = os.path.join(temp_dir, filename)
+    doc.save(filepath)
+    
+    return filepath
