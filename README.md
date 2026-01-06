@@ -180,5 +180,8 @@ Aplikasi web berbasis Streamlit untuk mencatat hasil praktik dan mengkalkulasi h
 git clone https://github.com/username/lab-psa-nano.git
 cd lab-psa-nano
 
+# Install dependencies
 pip install -r requirements.txt
+
+# Run aplikasi
 streamlit run app.py
