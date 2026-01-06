@@ -37,3 +37,5 @@ git clone https://github.com/username/psa-nanomaterial-app.git
 cd psa-nanomaterial-app
 
 pip install -r requirements.txt
+
+streamlit run app.py
