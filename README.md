@@ -35,7 +35,5 @@ Aplikasi web berbasis Streamlit untuk mencatat hasil praktik dan mengkalkulasi h
 ```bash
 git clone https://github.com/username/psa-nanomaterial-app.git
 cd psa-nanomaterial-app
-
 pip install -r requirements.txt
-
 streamlit run app.py
